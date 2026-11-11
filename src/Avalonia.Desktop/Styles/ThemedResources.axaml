@@ -1,39 +1,107 @@
-﻿<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="Background">#202020</SolidColorBrush>
-            <SolidColorBrush x:Key="BackdropBackground">#1A202020</SolidColorBrush>
-            <SolidColorBrush x:Key="SurfaceRaised">#04FFFFFF</SolidColorBrush>
-            <SolidColorBrush x:Key="SurfaceSunken">#FF101010</SolidColorBrush>
-            <SolidColorBrush x:Key="OverlaySurface">#FF2B2B2B</SolidColorBrush>
+            <SolidColorBrush x:Key="Background">#FF0E0B09</SolidColorBrush>
+            <SolidColorBrush x:Key="BackdropBackground">#00000000</SolidColorBrush>
+            <SolidColorBrush x:Key="SurfaceRaised">#00000000</SolidColorBrush>
+            <SolidColorBrush x:Key="SurfaceSunken">#FF080605</SolidColorBrush>
+            <SolidColorBrush x:Key="OverlaySurface">#FF1B1510</SolidColorBrush>
             <SolidColorBrush x:Key="TitleBarBackgroundBrush">Transparent</SolidColorBrush>
             <SolidColorBrush x:Key="WindowBorder">Black</SolidColorBrush>
             <SolidColorBrush x:Key="ScrimBrush">Black</SolidColorBrush>
-            <SolidColorBrush x:Key="DangerBrush">Crimson</SolidColorBrush>
-            <SolidColorBrush x:Key="WarningBrush">Crimson</SolidColorBrush>
-            <SolidColorBrush x:Key="LinkBrush">#FF64B5F6</SolidColorBrush>
+            <SolidColorBrush x:Key="DangerBrush">#FFC8321E</SolidColorBrush>
+            <SolidColorBrush x:Key="WarningBrush">#FFE8562F</SolidColorBrush>
+            <SolidColorBrush x:Key="LinkBrush">#FF8CC4F2</SolidColorBrush>
             <SolidColorBrush x:Key="FavoriteBrush">#FFFFD700</SolidColorBrush>
-            <SolidColorBrush x:Key="ControlBorderBrush">#FF4A4A4A</SolidColorBrush>
+            <SolidColorBrush x:Key="ControlBorderBrush">#FF4A3B2E</SolidColorBrush>
             <SolidColorBrush x:Key="IconOutlineBrush">Black</SolidColorBrush>
-            <BoxShadows x:Key="Shadow">0 0 5 Black</BoxShadows>
+            <BoxShadows x:Key="Shadow">0 8 24 #A0000000</BoxShadows>
+
+            <SolidColorBrush x:Key="LauncherCardBrush">#D9241C16</SolidColorBrush>
+            <SolidColorBrush x:Key="LauncherCardHoverBrush">#F0332820</SolidColorBrush>
+            <SolidColorBrush x:Key="LauncherLineBrush">#FF44362A</SolidColorBrush>
+            <SolidColorBrush x:Key="LauncherInkBrush">#FFF4EADC</SolidColorBrush>
+            <SolidColorBrush x:Key="LauncherMutedBrush">#FFBFAE9A</SolidColorBrush>
+            <SolidColorBrush x:Key="LauncherDimBrush">#FF85766A</SolidColorBrush>
+            <SolidColorBrush x:Key="LauncherColumnBrush">#CC140F0B</SolidColorBrush>
+            <FontFamily x:Key="LauncherSerif">Palatino Linotype, Book Antiqua, Georgia, serif</FontFamily>
+
+            <SolidColorBrush x:Key="ButtonForeground">#FFF4EADC</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonForegroundPointerOver">#FFF4EADC</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonForegroundPressed">#FFF4EADC</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBackground">#E0261E17</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBackgroundPointerOver">#FF3A2E24</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBackgroundPressed">#D9241C16</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBackgroundDisabled">#D9241C16</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonForegroundDisabled">#FF85766A</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBorderBrush">#FF44362A</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver">#FFBFAE9A</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBorderBrushPressed">#FF44362A</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBorderBrushDisabled">#FF44362A</SolidColorBrush>
+            <SolidColorBrush x:Key="TextControlBackground">#FF0B0806</SolidColorBrush>
+            <SolidColorBrush x:Key="TextControlBackgroundPointerOver">#FF0B0806</SolidColorBrush>
+            <SolidColorBrush x:Key="TextControlBackgroundFocused">#FF0B0806</SolidColorBrush>
+            <SolidColorBrush x:Key="TextControlBorderBrush">#FF44362A</SolidColorBrush>
+            <SolidColorBrush x:Key="TextControlBorderBrushPointerOver">#FFBFAE9A</SolidColorBrush>
+            <SolidColorBrush x:Key="ComboBoxBackground">#FF0B0806</SolidColorBrush>
+            <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver">#FF3A2E24</SolidColorBrush>
+            <SolidColorBrush x:Key="ComboBoxBorderBrush">#FF44362A</SolidColorBrush>
+            <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver">#FFBFAE9A</SolidColorBrush>
+            <SolidColorBrush x:Key="TabControlBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="DataGridGridLinesBrush">#FF44362A</SolidColorBrush>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="Background">White</SolidColorBrush>
-            <SolidColorBrush x:Key="BackdropBackground">#1AFFFFFF</SolidColorBrush>
-            <SolidColorBrush x:Key="SurfaceRaised">#08000000</SolidColorBrush>
-            <SolidColorBrush x:Key="SurfaceSunken">#FFE0E0E0</SolidColorBrush>
-            <SolidColorBrush x:Key="OverlaySurface">#FFF2F2F2</SolidColorBrush>
+            <SolidColorBrush x:Key="Background">#FFF3ECE0</SolidColorBrush>
+            <SolidColorBrush x:Key="BackdropBackground">#00000000</SolidColorBrush>
+            <SolidColorBrush x:Key="SurfaceRaised">#00000000</SolidColorBrush>
+            <SolidColorBrush x:Key="SurfaceSunken">#FFE2D8C8</SolidColorBrush>
+            <SolidColorBrush x:Key="OverlaySurface">#FFFBF7F0</SolidColorBrush>
             <SolidColorBrush x:Key="TitleBarBackgroundBrush">Transparent</SolidColorBrush>
-            <SolidColorBrush x:Key="WindowBorder">DarkGray</SolidColorBrush>
+            <SolidColorBrush x:Key="WindowBorder">#FFB9AC98</SolidColorBrush>
             <SolidColorBrush x:Key="ScrimBrush">Black</SolidColorBrush>
-            <SolidColorBrush x:Key="DangerBrush">Crimson</SolidColorBrush>
-            <SolidColorBrush x:Key="WarningBrush">Crimson</SolidColorBrush>
+            <SolidColorBrush x:Key="DangerBrush">#FFC8321E</SolidColorBrush>
+            <SolidColorBrush x:Key="WarningBrush">#FFE8562F</SolidColorBrush>
             <SolidColorBrush x:Key="LinkBrush">#FF1565C0</SolidColorBrush>
             <SolidColorBrush x:Key="FavoriteBrush">#FFFFD700</SolidColorBrush>
-            <SolidColorBrush x:Key="ControlBorderBrush">#FFB0B0B0</SolidColorBrush>
+            <SolidColorBrush x:Key="ControlBorderBrush">#FFAE9F8A</SolidColorBrush>
             <SolidColorBrush x:Key="IconOutlineBrush">Black</SolidColorBrush>
-            <BoxShadows x:Key="Shadow">0 0 5 DarkGray</BoxShadows>
+            <BoxShadows x:Key="Shadow">0 6 18 #40000000</BoxShadows>
+
+            <SolidColorBrush x:Key="LauncherCardBrush">#E6FFFBF4</SolidColorBrush>
+            <SolidColorBrush x:Key="LauncherCardHoverBrush">#FFFFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="LauncherLineBrush">#FFC9BBA6</SolidColorBrush>
+            <SolidColorBrush x:Key="LauncherInkBrush">#FF261C13</SolidColorBrush>
+            <SolidColorBrush x:Key="LauncherMutedBrush">#FF5F5142</SolidColorBrush>
+            <SolidColorBrush x:Key="LauncherDimBrush">#FF84766A</SolidColorBrush>
+            <SolidColorBrush x:Key="LauncherColumnBrush">#D9FAF5EC</SolidColorBrush>
+            <FontFamily x:Key="LauncherSerif">Palatino Linotype, Book Antiqua, Georgia, serif</FontFamily>
+
+            <SolidColorBrush x:Key="ButtonForeground">#FF261C13</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonForegroundPointerOver">#FF261C13</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonForegroundPressed">#FF261C13</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBackground">#FFFBF6EE</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBackgroundPointerOver">#FFFFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBackgroundPressed">#E6FFFBF4</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBackgroundDisabled">#E6FFFBF4</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonForegroundDisabled">#FF84766A</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBorderBrush">#FFC9BBA6</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver">#FF5F5142</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBorderBrushPressed">#FFC9BBA6</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBorderBrushDisabled">#FFC9BBA6</SolidColorBrush>
+            <SolidColorBrush x:Key="TextControlBackground">#FFFFFCF7</SolidColorBrush>
+            <SolidColorBrush x:Key="TextControlBackgroundPointerOver">#FFFFFCF7</SolidColorBrush>
+            <SolidColorBrush x:Key="TextControlBackgroundFocused">#FFFFFCF7</SolidColorBrush>
+            <SolidColorBrush x:Key="TextControlBorderBrush">#FFC9BBA6</SolidColorBrush>
+            <SolidColorBrush x:Key="TextControlBorderBrushPointerOver">#FF5F5142</SolidColorBrush>
+            <SolidColorBrush x:Key="ComboBoxBackground">#FFFFFCF7</SolidColorBrush>
+            <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver">#FFFFFFFF</SolidColorBrush>
+            <SolidColorBrush x:Key="ComboBoxBorderBrush">#FFC9BBA6</SolidColorBrush>
+            <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver">#FF5F5142</SolidColorBrush>
+            <SolidColorBrush x:Key="TabControlBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="DataGridGridLinesBrush">#FFC9BBA6</SolidColorBrush>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

@@ -33,6 +33,9 @@ public sealed class PCExhumed : EDuke32
     /// <inheritdoc />
     protected override string ConfigFile => "pcexhumed.cfg";
 
+    /// <inheritdoc />
+    protected override string? CvarsFile => "pcexhumed_cvars.cfg";
+
 
     /// <inheritdoc />
     public override void BeforeStart(BaseGame game, BaseAddon campaign)

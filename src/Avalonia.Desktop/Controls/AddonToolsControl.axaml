@@ -1,0 +1,59 @@
+<UserControl x:Class="Avalonia.Desktop.Controls.AddonToolsControl"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             xmlns:in="clr-namespace:Core.Client.Interfaces;assembly=BuildLauncher.Core.Client"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="40"
+             d:DesignWidth="400"
+             x:DataType="in:IPortsButtonControl"
+             mc:Ignorable="d">
+
+    <StackPanel Orientation="Horizontal" Spacing="5">
+
+        <Button Padding="8"
+                Command="{Binding ImportAddonsCommand}"
+                IsEnabled="{Binding !IsInProgress}"
+                ToolTip.Tip="Import .zip, .7z, .rar or .map files (archives without addon.json are converted automatically)">
+            <StackPanel Orientation="Horizontal">
+                <i:Icon Value="fa7-file-import" />
+                <TextBlock Margin="5,0,0,0" Text="Import" />
+            </StackPanel>
+        </Button>
+
+        <Button Padding="8"
+                IsEnabled="{Binding !IsInProgress}"
+                ToolTip.Tip="{Binding ImportFolderPath, StringFormat='Import folder: {0}'}">
+            <StackPanel Orientation="Horizontal">
+                <i:Icon Value="fa7-folder-tree" />
+                <TextBlock Margin="5,0,0,0" Text="Import folder" />
+                <i:Icon Margin="5,0,0,0" Value="fa7-caret-down" />
+            </StackPanel>
+            <Button.Flyout>
+                <MenuFlyout Placement="Bottom">
+                    <MenuItem Header="{Binding ImportFolderPath}" IsEnabled="False" />
+                    <MenuItem Command="{Binding OpenImportFolderCommand}" Header="Open import folder" />
+                    <MenuItem Command="{Binding ScanImportFolderCommand}" Header="Import new files now" />
+                    <MenuItem Command="{Binding ChangeImportFolderCommand}" Header="Change import folder..." />
+                    <MenuItem Command="{Binding ResetImportFolderCommand}" Header="Use default import folder" />
+                </MenuFlyout>
+            </Button.Flyout>
+        </Button>
+
+        <Button Padding="8"
+                Command="{Binding RefreshListCommand}"
+                IsEnabled="{Binding !IsInProgress}"
+                ToolTip.Tip="Refresh">
+            <i:Icon Value="fa7-rotate" />
+        </Button>
+
+        <Button Padding="8"
+                Command="{Binding OpenFolderCommand}"
+                ToolTip.Tip="Open folder...">
+            <i:Icon Value="fa7-folder-open" />
+        </Button>
+
+    </StackPanel>
+
+</UserControl>

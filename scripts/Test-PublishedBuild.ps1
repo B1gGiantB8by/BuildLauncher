@@ -16,7 +16,7 @@ $null = New-Item -ItemType Directory -Path $results
 Copy-Item -Path (Join-Path $publish '*') -Destination $results -Recurse
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot '../db') -Destination $results -Recurse
 New-Item -ItemType File -Path (Join-Path $results '.published-smoke-test') | Out-Null
-$executable = Join-Path $results $(if ($IsWindows) { 'BuildLauncher.exe' } else { 'BuildLauncher' })
+$executable = Join-Path $results $(if ($IsWindows) { 'BuildLauncherEX.exe' } else { 'BuildLauncherEX' })
 if (!(Test-Path -LiteralPath $executable)) { throw "Missing published executable: $executable" }
 foreach ($phase in @('first', 'restart')) {
     $argument = if ($phase -eq 'first') { '--smoke-test' } else { '--smoke-test-restart' }

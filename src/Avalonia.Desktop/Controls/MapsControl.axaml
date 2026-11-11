@@ -12,33 +12,33 @@
                           x:DataType="vm:MapsViewModel"
                           mc:Ignorable="d">
 
-    <Grid ColumnDefinitions="2*,*" RowDefinitions="auto,*,auto">
+    <Grid ColumnDefinitions="*,380">
 
-        <Grid Grid.Row="0"
-              Grid.Column="0"
-              Margin="0,0,0,5"
-              ColumnDefinitions="auto,*,auto">
+        <Border Padding="10" Classes="column">
 
-            <TextBox x:Name="SearchBox"
-                     Grid.Column="1"
-                     PlaceholderText="Search"
-                     Text="{Binding SearchBoxText}" />
+            <Grid RowDefinitions="auto,*">
 
-            <Button Grid.Column="2"
-                    Height="{Binding Bounds.Height, ElementName=SearchBox}"
-                    Margin="5,0,0,0"
-                    Command="{Binding ClearSearchBoxCommand}"
-                    ToolTip.Tip="Clear search">
-                <i:Icon Value="fa7-xmark" />
-            </Button>
+                <Grid Margin="0,0,0,8" ColumnDefinitions="*,auto,auto">
 
-        </Grid>
+                    <TextBox x:Name="SearchBox"
+                             PlaceholderText="Search"
+                             Text="{Binding SearchBoxText}" />
 
-        <ListBox x:Name="MapsList"
-                 Grid.Row="1"
-                 Grid.Column="0"
+                    <Button Grid.Column="1"
+                            Height="{Binding Bounds.Height, ElementName=SearchBox}"
+                            Margin="5,0,0,0"
+                            Command="{Binding ClearSearchBoxCommand}"
+                            ToolTip.Tip="Clear search">
+                        <i:Icon Value="fa7-xmark" />
+                    </Button>
+
+                    <ctrl:AddonToolsControl Grid.Column="2" Margin="8,0,0,0"  />
+
+                </Grid>
+
+                <ListBox x:Name="MapsList"
+                     Grid.Row="1"
                  Padding="2"
-                 Background="{DynamicResource SurfaceRaised}"
                  ItemsSource="{Binding AddonsList}"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -93,13 +93,24 @@
 
         </ListBox>
 
-        <ctrl:RightPanelControl x:Name="RightPanel"
-                                Grid.Row="1"
-                                Grid.Column="1" />
+            </Grid>
 
-        <ctrl:PortsButtonsControl x:Name="BottomPanel"
-                                  Grid.Row="2"
-                                  Grid.Column="0" />
+        </Border>
+
+        <Border Grid.Column="1"
+                Margin="14,0,0,0"
+                Padding="12"
+                Classes="column">
+
+            <Grid RowDefinitions="*,auto">
+
+                <ctrl:RightPanelControl x:Name="RightPanel" />
+
+                <ctrl:PortsButtonsControl x:Name="BottomPanel" Grid.Row="1" />
+
+            </Grid>
+
+        </Border>
 
     </Grid>
 

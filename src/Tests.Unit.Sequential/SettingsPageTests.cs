@@ -64,7 +64,7 @@ public sealed class SettingsPageTests
     /// <param name="label">The checkbox label.</param>
     [AvaloniaTheory]
     [InlineData("Skip intro")]
-    [InlineData("Skip startup window")]
+    [InlineData("Skip port's launcher window")]
     public void LaunchOption_Click_PersistsBothStates(string label)
     {
         HeadlessView.Prepare();

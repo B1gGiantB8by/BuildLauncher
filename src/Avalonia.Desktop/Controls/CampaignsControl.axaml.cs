@@ -1,5 +1,6 @@
 using Addons.Addons;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Desktop.Helpers;
 using Avalonia.Desktop.Misc;
 using Avalonia.Desktop.ViewModels;
@@ -223,6 +224,7 @@ public sealed partial class CampaignsControl : AddonListControlBase
         };
 
         customPortButton.Click += (sender, e) => flyout.ShowAt(customPortButton);
+        FlyoutBase.SetAttachedFlyout(customPortButton, flyout);
 
         BottomPanel!.PortsButtonsPanel!.Children.Add(customPortButton);
     }

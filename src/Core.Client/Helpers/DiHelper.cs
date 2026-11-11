@@ -173,7 +173,6 @@ public static class DiHelper
     {
         _ = container.AddTransient<ArchiveTools>();
         _ = container.AddTransient<FilesDownloader>();
-        _ = container.AddSingleton<AppUpdateInstaller>();
         _ = container.AddSingleton<PlaytimeProvider>();
         _ = container.AddSingleton<RatingProvider>();
         _ = container.AddSingleton<AddonsDatabaseManager>();

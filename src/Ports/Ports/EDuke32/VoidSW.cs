@@ -43,6 +43,9 @@ public sealed class VoidSW : EDuke32
     protected override string ConfigFile => "voidsw.cfg";
 
     /// <inheritdoc />
+    protected override string? CvarsFile => "voidsw_cvars.cfg";
+
+    /// <inheritdoc />
     public override PortCmdArguments CmdArguments => base.CmdArguments with
     {
         AddDirectory = "-j",

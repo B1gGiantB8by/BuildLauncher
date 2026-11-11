@@ -38,6 +38,9 @@ public sealed class NotBlood : NBlood
     /// <inheritdoc />
     protected override string ConfigFile => "notblood.cfg";
 
+    /// <inheritdoc />
+    protected override string? CvarsFile => "notblood_cvars.cfg";
+
 
     /// <inheritdoc />
     public override void BeforeStart(BaseGame game, BaseAddon campaign)

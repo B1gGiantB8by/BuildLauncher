@@ -27,7 +27,6 @@ public sealed class ViewModelsFactory : IViewModelsFactory
     private readonly IUserNotifier _userNotifier;
     private readonly AddonsDatabaseManager _addonsDatabaseManager;
     private readonly IApiInterface _apiInterface;
-    private readonly AppUpdateInstaller _appUpdateInstaller;
     private readonly BitmapsCache _bitmapsCache;
     private readonly IConfigProvider _config;
     private readonly DownloadableAddonsProviderFactory _downloadableAddonsProviderFactory;
@@ -88,9 +87,6 @@ public sealed class ViewModelsFactory : IViewModelsFactory
     /// <param name="addonsDatabaseManager">
     ///     The addons database manager.
     /// </param>
-    /// <param name="appUpdateInstaller">
-    ///     The app update installer.
-    /// </param>
     /// <param name="gamesPathsProvider">
     ///     The games paths provider.
     /// </param>
@@ -126,7 +122,6 @@ public sealed class ViewModelsFactory : IViewModelsFactory
         PortStarter portStarter,
         IFilesUploader filesUploader,
         AddonsDatabaseManager addonsDatabaseManager,
-        AppUpdateInstaller appUpdateInstaller,
         GamesPathsProvider gamesPathsProvider,
         BitmapsCache bitmapsCache,
         IEnumerable<BasePort> ports,
@@ -151,7 +146,6 @@ public sealed class ViewModelsFactory : IViewModelsFactory
         _portStarter = portStarter;
         _filesUploader = filesUploader;
         _addonsDatabaseManager = addonsDatabaseManager;
-        _appUpdateInstaller = appUpdateInstaller;
         _gamesPathsProvider = gamesPathsProvider;
         _bitmapsCache = bitmapsCache;
 
@@ -182,7 +176,6 @@ public sealed class ViewModelsFactory : IViewModelsFactory
             _addonsDatabaseManager,
             _gamesProvider,
             _portsProvider,
-            _appUpdateInstaller,
             this,
             _gamesPathsProvider,
             _ports,

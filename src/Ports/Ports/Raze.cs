@@ -57,6 +57,18 @@ public sealed class Raze : BasePort
     protected override string ConfigFile => "raze_portable.ini";
 
     /// <inheritdoc />
+    /// <remarks>
+    ///     Raze's fullscreen mode is already a borderless desktop-resolution window, so both fullscreen modes map to it.
+    /// </remarks>
+    public override bool IsDisplayModeSupported => true;
+
+    /// <inheritdoc />
+    protected override void AppendDisplayModeArgs(CmdParametersBuilder sb, GameDisplayModeEnum displayMode)
+    {
+        _ = sb.Append(displayMode is GameDisplayModeEnum.Windowed ? " +vid_fullscreen 0" : " +vid_fullscreen 1");
+    }
+
+    /// <inheritdoc />
     public override PortCmdArguments CmdArguments => new()
     {
         AddDirectory = "-file ",

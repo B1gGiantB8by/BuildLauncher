@@ -40,6 +40,9 @@ public class NBlood : EDuke32
     protected override string ConfigFile => "nblood.cfg";
 
     /// <inheritdoc />
+    protected override string? CvarsFile => "nblood_cvars.cfg";
+
+    /// <inheritdoc />
     public override PortCmdArguments CmdArguments => base.CmdArguments with
     {
         SkillLevel = "-s ",

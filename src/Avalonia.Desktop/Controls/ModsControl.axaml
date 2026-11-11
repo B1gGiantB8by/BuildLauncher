@@ -13,13 +13,22 @@
                            x:DataType="vm:ModsViewModel"
                            mc:Ignorable="d">
 
-    <Grid ColumnDefinitions="2*,*" RowDefinitions="*,auto">
+    <Grid ColumnDefinitions="*,380">
 
-        <ListBox x:Name="ModsList"
-                 Grid.Row="0"
-                 Grid.Column="0"
+        <Border Padding="10" Classes="column">
+
+            <Grid RowDefinitions="auto,*">
+
+                <Grid Margin="0,0,0,8" ColumnDefinitions="*,auto,auto">
+
+                    
+                    <ctrl:AddonToolsControl Grid.Column="2" Margin="8,0,0,0" HorizontalAlignment="Right" />
+
+                </Grid>
+
+                <ListBox x:Name="ModsList"
+                     Grid.Row="1"
                  Padding="2"
-                 Background="{DynamicResource SurfaceRaised}"
                  ItemsSource="{Binding AddonsList}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  SelectedItem="{Binding SelectedAddon}">
@@ -72,13 +81,24 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ctrl:RightPanelControl x:Name="RightPanel"
-                                Grid.Row="0"
-                                Grid.Column="1" />
+            </Grid>
 
-        <ctrl:PortsButtonsControl x:Name="BottomPanel"
-                                  Grid.Row="1"
-                                  Grid.Column="0" />
+        </Border>
+
+        <Border Grid.Column="1"
+                Margin="14,0,0,0"
+                Padding="12"
+                Classes="column">
+
+            <Grid RowDefinitions="*,auto">
+
+                <ctrl:RightPanelControl x:Name="RightPanel" />
+
+                <ctrl:PortsButtonsControl x:Name="BottomPanel" Grid.Row="1" />
+
+            </Grid>
+
+        </Border>
 
     </Grid>
 

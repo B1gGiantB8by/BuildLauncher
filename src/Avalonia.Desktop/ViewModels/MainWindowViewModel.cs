@@ -30,7 +30,6 @@ public sealed class MainWindowViewModel : ObservableObject, IDisposable
     /// <param name="addonsDatabaseManager">The addons database manager.</param>
     /// <param name="gamesProvider">The installed games provider.</param>
     /// <param name="portsProvider">The ports provider.</param>
-    /// <param name="appUpdateInstaller">The app update installer.</param>
     /// <param name="viewModelsFactory">The view models factory.</param>
     /// <param name="gamesPathsProvider">The games paths provider.</param>
     /// <param name="ports">The available ports.</param>
@@ -44,7 +43,6 @@ public sealed class MainWindowViewModel : ObservableObject, IDisposable
         AddonsDatabaseManager addonsDatabaseManager,
         InstalledGamesProvider gamesProvider,
         PortsProvider portsProvider,
-        AppUpdateInstaller appUpdateInstaller,
         IViewModelsFactory viewModelsFactory,
         GamesPathsProvider gamesPathsProvider,
         IEnumerable<BasePort> ports,
@@ -58,7 +56,6 @@ public sealed class MainWindowViewModel : ObservableObject, IDisposable
         _gamesProvider.GameChangedEvent += OnGameChanged;
 
         DevPageViewModel = new DevViewModel(configProvider, filesUploader, addonsDatabaseManager, gamesProvider, loggerFactory.CreateLogger<DevViewModel>());
-        AboutPageViewModel = new AboutViewModel(appUpdateInstaller);
         PortsPageViewModel = new PortsViewModel(viewModelsFactory, portsProvider, ports, loggerFactory.CreateLogger<PortsViewModel>());
         ToolsPageViewModel = new ToolsViewModel(viewModelsFactory, tools);
         SettingsPageViewModel = new SettingsViewModel(configProvider, gamesPathsProvider);
@@ -228,11 +225,6 @@ public sealed class MainWindowViewModel : ObservableObject, IDisposable
     ///     Gets the developer page view model.
     /// </summary>
     public DevViewModel DevPageViewModel { get; init; }
-
-    /// <summary>
-    ///     Gets the about page view model.
-    /// </summary>
-    public AboutViewModel AboutPageViewModel { get; init; }
 
     /// <summary>
     ///     Gets the ports page view model.

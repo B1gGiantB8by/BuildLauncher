@@ -76,6 +76,11 @@ public abstract class BaseGame
     public string ModsFolderPath => Path.Combine(ClientProperties.DataFolderPath, "Addons", ShortName, "Mods");
 
     /// <summary>
+    ///     Path to the folder that is scanned for new addon archives on startup.
+    /// </summary>
+    public string ImportFolderPath => Path.Combine(ClientProperties.DataFolderPath, "Addons", ShortName, "Import");
+
+    /// <summary>
     ///     Does this game have skill levels.
     /// </summary>
     [MemberNotNullWhen(true, nameof(Skills))]

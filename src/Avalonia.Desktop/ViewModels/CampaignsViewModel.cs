@@ -150,7 +150,8 @@ public sealed class CampaignsViewModel : AddonListViewModelBase
                 [.. enabledOptions],
                 null,
                 _config.SkipIntro,
-                _config.SkipStartup
+                _config.SkipStartup,
+                displayMode: _config.GameDisplayMode
                 ).ConfigureAwait(true);
         }
         else if (command is CustomPort customPort)
@@ -163,7 +164,8 @@ public sealed class CampaignsViewModel : AddonListViewModelBase
                 null,
                 _config.SkipIntro,
                 _config.SkipStartup,
-                customPort.Path
+                customPort.Path,
+                _config.GameDisplayMode
                 ).ConfigureAwait(true);
         }
         else

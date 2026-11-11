@@ -197,6 +197,9 @@ public abstract class BasePort : IInstallable
     /// <param name="skill">
     ///     Skill level
     /// </param>
+    /// <param name="displayMode">
+    ///     How the port should present the game window.
+    /// </param>
     public string GetStartGameArgs(
         BaseGame game,
         BaseAddon addon,
@@ -204,7 +207,8 @@ public abstract class BasePort : IInstallable
         IReadOnlyList<string> enabledOptions,
         bool skipIntro,
         bool skipStartup,
-        byte? skill = null
+        byte? skill = null,
+        GameDisplayModeEnum displayMode = GameDisplayModeEnum.PortDefault
         )
     {
         var sb = CmdParametersBuilderFactory.Create(game, addon, this);
@@ -237,6 +241,11 @@ public abstract class BasePort : IInstallable
             sb.AppendSkipStartupParameter();
         }
 
+        if (displayMode is not GameDisplayModeEnum.PortDefault)
+        {
+            AppendDisplayModeArgs(sb, displayMode);
+        }
+
         CustomModifyArgs(sb, game, addon);
 
         if (game is not FuryGame && addon.MainDef is null)
@@ -266,6 +275,30 @@ public abstract class BasePort : IInstallable
     ///     The addon or modification being applied to the game.
     /// </param>
     protected virtual void CustomModifyArgs(CmdParametersBuilder sb, BaseGame game, BaseAddon addon) { }
+
+    /// <summary>
+    ///     Gets a value indicating whether the port honors <see cref="GameDisplayModeEnum" /> settings.
+    /// </summary>
+    public virtual bool IsDisplayModeSupported => false;
+
+    /// <summary>
+    ///     Appends command-line switches that select the display mode.
+    /// </summary>
+    /// <param name="sb">
+    ///     A builder object used to construct command-line arguments.
+    /// </param>
+    /// <param name="displayMode">
+    ///     The requested display mode; never <see cref="GameDisplayModeEnum.PortDefault" />.
+    /// </param>
+    protected virtual void AppendDisplayModeArgs(CmdParametersBuilder sb, GameDisplayModeEnum displayMode) { }
+
+    /// <summary>
+    ///     Writes the requested display mode into the port's configuration files before it starts.
+    /// </summary>
+    /// <param name="displayMode">
+    ///     The requested display mode.
+    /// </param>
+    public virtual void ApplyDisplayMode(GameDisplayModeEnum displayMode) { }
 
     /// <summary>
     ///     Performs cleanup after the port exits.

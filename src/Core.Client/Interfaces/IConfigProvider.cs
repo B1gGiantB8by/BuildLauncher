@@ -97,6 +97,40 @@ public interface IConfigProvider
     bool SkipStartup { get; set; }
 
     /// <summary>
+    ///     Gets or sets how source ports should present the game window.
+    /// </summary>
+    GameDisplayModeEnum GameDisplayMode { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether the launcher can be navigated with a game controller.
+    /// </summary>
+    bool UseController { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether the launcher window starts in borderless fullscreen.
+    /// </summary>
+    bool LauncherFullscreen { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether each game's import folder is scanned for new addon archives on startup.
+    /// </summary>
+    bool ScanImportFolders { get; set; }
+
+    /// <summary>
+    ///     Gets the custom import folder of a game.
+    /// </summary>
+    /// <param name="game">The game.</param>
+    /// <returns>The custom folder, or <see langword="null" /> when the default folder is used.</returns>
+    string? GetImportFolder(GameEnum game);
+
+    /// <summary>
+    ///     Sets or clears the custom import folder of a game.
+    /// </summary>
+    /// <param name="game">The game.</param>
+    /// <param name="path">The custom folder, or <see langword="null" /> to use the default folder.</param>
+    void SetImportFolder(GameEnum game, string? path);
+
+    /// <summary>
     ///     Gets or sets whether the Mica system backdrop effect is enabled.
     /// </summary>
     bool UseMica { get; set; }

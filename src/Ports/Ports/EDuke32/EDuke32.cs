@@ -32,6 +32,62 @@ public class EDuke32 : BasePort
     /// <inheritdoc />
     protected override string ConfigFile => "eduke32.cfg";
 
+    /// <summary>
+    ///     Gets the name of the file in which the port stores console variables, or <see langword="null" /> when unknown.
+    /// </summary>
+    protected virtual string? CvarsFile => "settings.cfg";
+
+    /// <inheritdoc />
+    public override bool IsDisplayModeSupported => true;
+
+    /// <inheritdoc />
+    public override void ApplyDisplayMode(GameDisplayModeEnum displayMode)
+    {
+        const string ScreenSection = "Screen Setup";
+
+        if (displayMode is GameDisplayModeEnum.PortDefault)
+        {
+            return;
+        }
+
+        var config = PortConfigFilePath;
+        var resolution = DisplayConfigHelper.GetPrimaryScreenResolution();
+        var width = DisplayConfigHelper.GetIniInt(config, ScreenSection, "ScreenWidth");
+        var height = DisplayConfigHelper.GetIniInt(config, ScreenSection, "ScreenHeight");
+
+        Dictionary<string, string> screen = new(StringComparer.OrdinalIgnoreCase)
+        {
+            ["ScreenMode"] = displayMode is GameDisplayModeEnum.Fullscreen ? "1" : "0"
+        };
+
+        if (resolution is { } native)
+        {
+            var useNative = displayMode is GameDisplayModeEnum.BorderlessFullscreen ||
+                            (displayMode is GameDisplayModeEnum.Fullscreen && (width is null || height is null));
+
+            var shrinkWindow = displayMode is GameDisplayModeEnum.Windowed &&
+                               (width is null || height is null || width >= native.Width || height >= native.Height);
+
+            if (useNative)
+            {
+                screen["ScreenWidth"] = native.Width.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                screen["ScreenHeight"] = native.Height.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            }
+            else if (shrinkWindow)
+            {
+                screen["ScreenWidth"] = (native.Width * 2 / 3).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                screen["ScreenHeight"] = (native.Height * 2 / 3).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            }
+        }
+
+        DisplayConfigHelper.SetIniValues(config, ScreenSection, screen);
+
+        if (CvarsFile is not null && displayMode is not GameDisplayModeEnum.Fullscreen)
+        {
+            DisplayConfigHelper.SetCvar(Path.Combine(InstallFolderPath, CvarsFile), "r_borderless", displayMode is GameDisplayModeEnum.BorderlessFullscreen ? "1" : "0");
+        }
+    }
+
     /// <inheritdoc />
     public override PortCmdArguments CmdArguments => new()
     {

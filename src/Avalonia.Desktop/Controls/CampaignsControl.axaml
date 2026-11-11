@@ -34,23 +34,19 @@
                            VerticalAlignment="Center"
                            Source="{Binding GridImageHash, Converter={StaticResource CachedHashToBitmapConverter}}" />
 
-                    <TextBlock Margin="0"
-                               Padding="5"
-                               HorizontalAlignment="Stretch"
-                               VerticalAlignment="Bottom"
-                               Background="{DynamicResource Background}"
-                               Opacity="0.6"
-                               Text="{Binding Title}"
-                               TextAlignment="Center"
-                               TextWrapping="Wrap" />
-
-                    <TextBlock Margin="0"
-                               Padding="5"
-                               HorizontalAlignment="Stretch"
-                               VerticalAlignment="Bottom"
-                               Text="{Binding Title}"
-                               TextAlignment="Center"
-                               TextWrapping="WrapWithOverflow" />
+                    <Border Padding="8,22,8,7" VerticalAlignment="Bottom">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                <GradientStop Offset="0" Color="#00000000" />
+                                <GradientStop Offset="0.65" Color="#E0000000" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock FontWeight="SemiBold"
+                                   Foreground="White"
+                                   Text="{Binding Title}"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap" />
+                    </Border>
                 </Grid>
 
                 <Grid IsVisible="{Binding GridImageHash, Converter={x:Static ObjectConverters.IsNull}}">
@@ -59,8 +55,9 @@
 
                     <Viewbox>
                         <TextBlock Margin="20"
+                                   FontFamily="{DynamicResource LauncherSerif}"
                                    FontSize="500"
-                                   FontWeight="Bold"
+                                   FontStyle="Italic"
                                    Text="{Binding Title, Converter={StaticResource StringToWrappedConverter}}"
                                    TextAlignment="Center" />
                     </Viewbox>
@@ -112,33 +109,33 @@
         </DataTemplate>
     </ctrl:AddonListControlBase.DataTemplates>
 
-    <Grid ColumnDefinitions="2*,*" RowDefinitions="auto,*,auto">
+    <Grid ColumnDefinitions="*,380">
 
-        <Grid Grid.Row="0"
-              Grid.Column="0"
-              Margin="0,0,0,5"
-              ColumnDefinitions="auto,*,auto">
+        <Border Padding="10" Classes="column">
 
-            <TextBox x:Name="SearchBox"
-                     Grid.Column="1"
-                     PlaceholderText="Search"
-                     Text="{Binding SearchBoxText}" />
+            <Grid RowDefinitions="auto,*">
 
-            <Button Grid.Column="2"
-                    Height="{Binding Bounds.Height, ElementName=SearchBox}"
-                    Margin="5,0,0,0"
-                    Command="{Binding ClearSearchBoxCommand}"
-                    ToolTip.Tip="Clear search">
-                <i:Icon Value="fa7-xmark" />
-            </Button>
+                <Grid Margin="0,0,0,8" ColumnDefinitions="*,auto,auto">
 
-        </Grid>
+                    <TextBox x:Name="SearchBox"
+                             PlaceholderText="Search"
+                             Text="{Binding SearchBoxText}" />
 
-        <ListBox x:Name="CampaignsList"
-                 Grid.Row="1"
-                 Grid.Column="0"
+                    <Button Grid.Column="1"
+                            Height="{Binding Bounds.Height, ElementName=SearchBox}"
+                            Margin="5,0,0,0"
+                            Command="{Binding ClearSearchBoxCommand}"
+                            ToolTip.Tip="Clear search">
+                        <i:Icon Value="fa7-xmark" />
+                    </Button>
+
+                    <ctrl:AddonToolsControl Grid.Column="2" Margin="8,0,0,0"  />
+
+                </Grid>
+
+                <ListBox x:Name="CampaignsList"
+                     Grid.Row="1"
                  Padding="2"
-                 Background="{DynamicResource SurfaceRaised}"
                  IsEnabled="{Binding !IsInProgress}"
                  ItemsSource="{Binding AddonsList}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -218,13 +215,24 @@
 
         </ListBox>
 
-        <ctrl:RightPanelControl x:Name="RightPanel"
-                                Grid.Row="1"
-                                Grid.Column="1" />
+            </Grid>
 
-        <ctrl:PortsButtonsControl x:Name="BottomPanel"
-                                  Grid.Row="2"
-                                  Grid.Column="0" />
+        </Border>
+
+        <Border Grid.Column="1"
+                Margin="14,0,0,0"
+                Padding="12"
+                Classes="column">
+
+            <Grid RowDefinitions="*,auto">
+
+                <ctrl:RightPanelControl x:Name="RightPanel" />
+
+                <ctrl:PortsButtonsControl x:Name="BottomPanel" Grid.Row="1" />
+
+            </Grid>
+
+        </Border>
 
     </Grid>
 

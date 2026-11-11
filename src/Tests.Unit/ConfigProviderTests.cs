@@ -75,9 +75,9 @@ public sealed class ConfigProviderTests : IDisposable
     }
 
     [Fact]
-    public void SkipStartup_Default_ReturnsFalse()
+    public void SkipStartup_Default_ReturnsTrue()
     {
-        Assert.False(_provider.SkipStartup);
+        Assert.True(_provider.SkipStartup);
     }
 
     [Fact]

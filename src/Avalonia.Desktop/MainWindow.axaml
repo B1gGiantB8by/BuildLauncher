@@ -1,13 +1,12 @@
 <Window x:Class="Avalonia.Desktop.MainWindow"
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:conv="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="https://github.com/projektanker/icons.avalonia"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:pages="clr-namespace:Avalonia.Desktop.Pages"
         xmlns:vm="using:Avalonia.Desktop.ViewModels"
-        Title="BuildLauncher"
+        Title="Build Launcher EX"
         MinWidth="1300"
         MinHeight="800"
         d:DesignHeight="800"
@@ -40,7 +39,6 @@
 
     <Window.Resources>
         <ResourceDictionary>
-            <conv:EnumToBoolConverter x:Key="EnumToBoolConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="/Styles/ThemedResources.axaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -56,6 +54,11 @@
             <Border Grid.Row="0"
                     Grid.RowSpan="2"
                     Background="{DynamicResource BackdropBackground}"
+                    IsHitTestVisible="False" />
+
+            <Border Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Background="{DynamicResource LauncherGlowBrush}"
                     IsHitTestVisible="False" />
 
             <Grid x:Name="ConsentWindow"
@@ -87,7 +90,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    TextWrapping="Wrap">
-                            BuildLauncher is a community-driven utility designed to help users manage and launch third-party source ports, mods, custom campaigns, and maps for their licensed Build Engine games.<LineBreak />
+                            Build Launcher EX is a community-driven utility designed to help users manage and launch third-party source ports, mods, custom campaigns, and maps for their licensed Build Engine games.<LineBreak />
                             <LineBreak />
                             This Software is not affiliated with or endorsed by the original game rights holders or any associated entities.<LineBreak />
                             <LineBreak />
@@ -110,16 +113,17 @@
 
             <TabControl x:Name="MainTabs"
                         Grid.Row="1"
-                        Margin="5"
-                        TabStripPlacement="Left">
+                        SelectionChanged="OnMainTabsSelectionChanged"
+                        TabStripPlacement="Left"
+                        Theme="{DynamicResource LauncherShellTabs}">
 
                 <!--  Duke 3D  -->
-                <TabItem x:Name="DukeTab" IsEnabled="{Binding IsDukeTabEnabled}">
+                <TabItem x:Name="DukeTab" Theme="{DynamicResource LauncherGameTab}" IsEnabled="{Binding IsDukeTabEnabled}">
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="24" Source="/Assets/duke3d.png" />
-                            <TextBlock Margin="5" Text="Duke Nukem 3D" />
+                            <Image Width="30" Source="/Assets/duke3d.png" />
+                            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="Duke Nukem 3D" />
                         </StackPanel>
                     </TabItem.Header>
 
@@ -128,12 +132,12 @@
                 </TabItem>
 
                 <!--  Blood  -->
-                <TabItem x:Name="BloodTab" IsEnabled="{Binding IsBloodTabEnabled}">
+                <TabItem x:Name="BloodTab" Theme="{DynamicResource LauncherGameTab}" IsEnabled="{Binding IsBloodTabEnabled}">
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="24" Source="/Assets/blood.png" />
-                            <TextBlock Margin="5" Text="Blood" />
+                            <Image Width="30" Source="/Assets/blood.png" />
+                            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="Blood" />
                         </StackPanel>
                     </TabItem.Header>
 
@@ -142,12 +146,12 @@
                 </TabItem>
 
                 <!--  Wang  -->
-                <TabItem x:Name="WangTab" IsEnabled="{Binding IsWangTabEnabled}">
+                <TabItem x:Name="WangTab" Theme="{DynamicResource LauncherGameTab}" IsEnabled="{Binding IsWangTabEnabled}">
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="24" Source="/Assets/sw.png" />
-                            <TextBlock Margin="5" Text="Shadow Warrior" />
+                            <Image Width="30" Source="/Assets/sw.png" />
+                            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="Shadow Warrior" />
                         </StackPanel>
                     </TabItem.Header>
 
@@ -156,12 +160,12 @@
                 </TabItem>
 
                 <!--  Fury  -->
-                <TabItem x:Name="FuryTab" IsEnabled="{Binding IsFuryTabEnabled}">
+                <TabItem x:Name="FuryTab" Theme="{DynamicResource LauncherGameTab}" IsEnabled="{Binding IsFuryTabEnabled}">
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="24" Source="/Assets/fury.png" />
-                            <TextBlock Margin="5" Text="Ion Fury" />
+                            <Image Width="30" Source="/Assets/fury.png" />
+                            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="Ion Fury" />
                         </StackPanel>
                     </TabItem.Header>
 
@@ -170,12 +174,12 @@
                 </TabItem>
 
                 <!--  RR  -->
-                <TabItem x:Name="RedneckTab" IsEnabled="{Binding IsRedneckTabEnabled}">
+                <TabItem x:Name="RedneckTab" Theme="{DynamicResource LauncherGameTab}" IsEnabled="{Binding IsRedneckTabEnabled}">
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="24" Source="/Assets/redneck.png" />
-                            <TextBlock Margin="5" Text="Redneck Rampage" />
+                            <Image Width="30" Source="/Assets/redneck.png" />
+                            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="Redneck Rampage" />
                         </StackPanel>
                     </TabItem.Header>
 
@@ -184,12 +188,12 @@
                 </TabItem>
 
                 <!--  PS  -->
-                <TabItem x:Name="SlaveTab" IsEnabled="{Binding IsSlaveTabEnabled}">
+                <TabItem x:Name="SlaveTab" Theme="{DynamicResource LauncherGameTab}" IsEnabled="{Binding IsSlaveTabEnabled}">
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="24" Source="/Assets/slave.png" />
-                            <TextBlock Margin="5" Text="Powerslave" />
+                            <Image Width="30" Source="/Assets/slave.png" />
+                            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="Powerslave" />
                         </StackPanel>
                     </TabItem.Header>
 
@@ -198,12 +202,12 @@
                 </TabItem>
 
                 <!--  NAM  -->
-                <TabItem x:Name="NamTab" IsEnabled="{Binding IsNamTabEnabled}">
+                <TabItem x:Name="NamTab" Theme="{DynamicResource LauncherGameTab}" IsEnabled="{Binding IsNamTabEnabled}">
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="24" Source="/Assets/nam.png" />
-                            <TextBlock Margin="5" Text="NAM" />
+                            <Image Width="30" Source="/Assets/nam.png" />
+                            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="NAM" />
                         </StackPanel>
                     </TabItem.Header>
 
@@ -212,12 +216,12 @@
                 </TabItem>
 
                 <!--  WW2  -->
-                <TabItem x:Name="WW2GITab" IsEnabled="{Binding IsWW2GITabEnabled}">
+                <TabItem x:Name="WW2GITab" Theme="{DynamicResource LauncherGameTab}" IsEnabled="{Binding IsWW2GITabEnabled}">
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="24" Source="/Assets/ww2gi.png" />
-                            <TextBlock Margin="5" Text="WWII GI" />
+                            <Image Width="30" Source="/Assets/ww2gi.png" />
+                            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="WWII GI" />
                         </StackPanel>
                     </TabItem.Header>
 
@@ -226,12 +230,12 @@
                 </TabItem>
 
                 <!--  Witchaven  -->
-                <TabItem x:Name="WitchavenTab" IsEnabled="{Binding IsWitchavenTabEnabled}">
+                <TabItem x:Name="WitchavenTab" Theme="{DynamicResource LauncherGameTab}" IsEnabled="{Binding IsWitchavenTabEnabled}">
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="24" Source="/Assets/wh.png" />
-                            <TextBlock Margin="5" Text="Witchaven" />
+                            <Image Width="30" Source="/Assets/wh.png" />
+                            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="Witchaven" />
                         </StackPanel>
                     </TabItem.Header>
 
@@ -240,12 +244,12 @@
                 </TabItem>
 
                 <!--  TekWar  -->
-                <TabItem x:Name="TekWarTab" IsEnabled="{Binding IsTekWarTabEnabled}">
+                <TabItem x:Name="TekWarTab" Theme="{DynamicResource LauncherGameTab}" IsEnabled="{Binding IsTekWarTabEnabled}">
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="24" Source="/Assets/tw.png" />
-                            <TextBlock Margin="5" Text="TekWar" />
+                            <Image Width="30" Source="/Assets/tw.png" />
+                            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="TekWar" />
                         </StackPanel>
                     </TabItem.Header>
 
@@ -254,20 +258,21 @@
                 </TabItem>
 
                 <!--  Standalone  -->
-                <TabItem x:Name="StandaloneTab" IsEnabled="True">
+                <TabItem x:Name="StandaloneTab" Theme="{DynamicResource LauncherGameTab}">
 
                     <TabItem.Header>
-                        <TextBlock Margin="5" Text="Standalone" />
+                        <StackPanel Orientation="Horizontal">
+                            <i:Icon Width="30" FontSize="20" Value="fa7-cube" />
+                            <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="Standalone" />
+                        </StackPanel>
                     </TabItem.Header>
 
                     <pages:GamePage DataContext="{Binding StandaloneViewModel}" />
 
                 </TabItem>
 
-                <TabItem Header="" IsEnabled="False" />
-
                 <!--  Ports  -->
-                <TabItem x:Name="PortsTab" Margin="5">
+                <TabItem x:Name="PortsTab" Classes="util" Theme="{DynamicResource LauncherPillTab}">
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
@@ -281,11 +286,16 @@
                         </StackPanel>
                     </TabItem.Header>
 
-                    <pages:PortsPage DataContext="{Binding PortsPageViewModel}" />
+                    <Border Padding="16" Classes="column">
+                        <DockPanel>
+                            <TextBlock Classes="page-title" DockPanel.Dock="Top" Text="Ports" />
+                            <pages:PortsPage DataContext="{Binding PortsPageViewModel}" />
+                        </DockPanel>
+                    </Border>
                 </TabItem>
 
                 <!--  Tools  -->
-                <TabItem x:Name="ToolsTab" Margin="5">
+                <TabItem x:Name="ToolsTab" Classes="util" Theme="{DynamicResource LauncherPillTab}">
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
@@ -299,45 +309,93 @@
                         </StackPanel>
                     </TabItem.Header>
 
-                    <pages:ToolsPage DataContext="{Binding ToolsPageViewModel}" />
+                    <Border Padding="16" Classes="column">
+                        <DockPanel>
+                            <TextBlock Classes="page-title" DockPanel.Dock="Top" Text="Tools" />
+                            <pages:ToolsPage DataContext="{Binding ToolsPageViewModel}" />
+                        </DockPanel>
+                    </Border>
                 </TabItem>
 
                 <!--  Dev  -->
                 <TabItem x:Name="DevTab"
-                         Margin="5"
+                         Classes="util" Theme="{DynamicResource LauncherPillTab}"
                          Header="Dev">
-                    <pages:DevPage DataContext="{Binding DevPageViewModel}" />
+                    <Border Padding="16" Classes="column">
+                        <DockPanel>
+                            <TextBlock Classes="page-title" DockPanel.Dock="Top" Text="Dev" />
+                            <pages:DevPage DataContext="{Binding DevPageViewModel}" />
+                        </DockPanel>
+                    </Border>
                 </TabItem>
-
-                <TabItem Header="" IsEnabled="False" />
 
                 <!--  Settings  -->
                 <TabItem x:Name="SettingsTab"
-                         Margin="5"
+                         Classes="util" Theme="{DynamicResource LauncherPillTab}"
                          Header="Settings"
                          IsSelected="True">
-                    <pages:SettingsPage DataContext="{Binding SettingsPageViewModel}" />
+                    <Border Padding="16" Classes="column">
+                        <DockPanel>
+                            <TextBlock Classes="page-title" DockPanel.Dock="Top" Text="Settings" />
+                            <pages:SettingsPage DataContext="{Binding SettingsPageViewModel}" />
+                        </DockPanel>
+                    </Border>
                 </TabItem>
 
-                <!--  About  -->
-                <TabItem x:Name="AboutTab" Margin="5">
+                <!--  Quit  -->
+                <TabItem x:Name="QuitTab" Classes="util" Theme="{DynamicResource LauncherPillTab}">
 
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="About" />
-                            <i:Icon Margin="5,0,0,0"
-                                    DataContext="{Binding AboutPageViewModel}"
-                                    Foreground="{DynamicResource WarningBrush}"
-                                    IsVisible="{Binding CurrentUpdateState, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static vm:UpdateState.UpdateAvailable}}"
-                                    ToolTip.Tip="App update available"
-                                    Value="fa7-circle-exclamation" />
+                            <i:Icon Value="fa7-power-off" />
+                            <TextBlock Margin="5,0,0,0" Text="Quit" />
                         </StackPanel>
                     </TabItem.Header>
 
-                    <pages:AboutPage DataContext="{Binding AboutPageViewModel}" />
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Spacing="20">
+
+                        <TextBlock HorizontalAlignment="Center"
+                                   FontSize="24"
+                                   Text="Quit Build Launcher EX?" />
+
+                        <Button x:Name="QuitButton"
+                                Padding="60,14"
+                                HorizontalAlignment="Center"
+                                Click="OnQuitButtonClick">
+                            <StackPanel Orientation="Horizontal">
+                                <i:Icon FontSize="18" Value="fa7-power-off" />
+                                <TextBlock Margin="10,0,0,0"
+                                           FontSize="18"
+                                           Text="Quit" />
+                            </StackPanel>
+                        </Button>
+
+                        <TextBlock HorizontalAlignment="Center"
+                                   Opacity="0.7"
+                                   Text="Controller: hold View/Back to come here, press A to quit, B or LB/RB to go back." />
+
+                    </StackPanel>
                 </TabItem>
 
             </TabControl>
+
+            <Button x:Name="FullscreenButton"
+                    Grid.Row="1"
+                    Width="44"
+                    Height="34"
+                    Margin="0,13,16,0"
+                    Padding="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Click="OnFullscreenButtonClick"
+                    CornerRadius="17"
+                    ToolTip.Tip="Fullscreen (F11)">
+                <i:Icon Value="fa7-expand" />
+            </Button>
         </Grid>
     </Border>
 </Window>

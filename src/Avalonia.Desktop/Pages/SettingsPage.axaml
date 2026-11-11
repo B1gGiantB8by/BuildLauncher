@@ -555,20 +555,64 @@
 
                 <StackPanel Grid.Row="15"
                             Grid.Column="0"
-                            Grid.ColumnSpan="2"
-                            Orientation="Horizontal">
+                            Grid.ColumnSpan="4"
+                            Orientation="Vertical">
 
-                    <CheckBox Margin="10,5"
-                              VerticalAlignment="Center"
-                              IsChecked="{Binding SkipIntroCheckbox}">
-                        Skip intro
-                    </CheckBox>
+                    <WrapPanel Orientation="Horizontal">
 
-                    <CheckBox Margin="10,0"
-                              VerticalAlignment="Center"
-                              IsChecked="{Binding SkipStartupCheckbox}">
-                        Skip startup window
-                    </CheckBox>
+                        <CheckBox Margin="10,5"
+                                  VerticalAlignment="Center"
+                                  IsChecked="{Binding SkipIntroCheckbox}">
+                            Skip intro
+                        </CheckBox>
+
+                        <CheckBox Margin="10,0"
+                                  VerticalAlignment="Center"
+                                  IsChecked="{Binding SkipStartupCheckbox}"
+                                  ToolTip.Tip="Launch straight into the game instead of showing the port's own setup window (EDuke32, NBlood, Rednukem, Raze and similar ports)">
+                            Skip port's launcher window
+                        </CheckBox>
+
+                        <TextBlock Margin="20,0,5,0"
+                                   VerticalAlignment="Center"
+                                   Text="Game display mode:" />
+
+                        <ComboBox MinWidth="200"
+                                  VerticalAlignment="Center"
+                                  SelectedIndex="{Binding GameDisplayModeIndex}"
+                                  ToolTip.Tip="Applied by EDuke32-based ports (EDuke32, NBlood, NotBlood, Rednukem, PCExhumed, VoidSW) and Raze. Borderless uses the primary display's native resolution.">
+                            <ComboBoxItem>Port default</ComboBoxItem>
+                            <ComboBoxItem>Fullscreen</ComboBoxItem>
+                            <ComboBoxItem>Borderless fullscreen</ComboBoxItem>
+                            <ComboBoxItem>Windowed</ComboBoxItem>
+                        </ComboBox>
+
+                    </WrapPanel>
+
+                    <WrapPanel Orientation="Horizontal">
+
+                        <CheckBox Margin="10,5"
+                                  VerticalAlignment="Center"
+                                  IsChecked="{Binding UseControllerCheckbox}"
+                                  ToolTip.Tip="D-pad/left stick: move · A: select · B: back · X: context menu · Start: play · View: tap for fullscreen, hold for Quit · LB/RB: switch game · LT/RT: switch page · Right stick: scroll">
+                            Controller navigation
+                        </CheckBox>
+
+                        <CheckBox Margin="10,0"
+                                  VerticalAlignment="Center"
+                                  IsChecked="{Binding LauncherFullscreenCheckbox}"
+                                  ToolTip.Tip="Press F11 or the controller's View/Back button to toggle at any time">
+                            Start launcher in fullscreen
+                        </CheckBox>
+
+                        <CheckBox Margin="10,0"
+                                  VerticalAlignment="Center"
+                                  IsChecked="{Binding ScanImportFoldersCheckbox}"
+                                  ToolTip.Tip="On startup, archives and .map files placed in Data\Addons\&lt;Game&gt;\Import are installed automatically">
+                            Scan import folders on startup
+                        </CheckBox>
+
+                    </WrapPanel>
 
                 </StackPanel>
 

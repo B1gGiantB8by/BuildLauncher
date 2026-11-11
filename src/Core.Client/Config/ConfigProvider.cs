@@ -70,9 +70,48 @@ public sealed class ConfigProvider : IConfigProvider
     /// <inheritdoc />
     public bool SkipStartup
     {
-        get => GetBoolValue(nameof(SkipStartup));
+        get => GetBoolValue(nameof(SkipStartup), true);
         set => SetSettingsValue(value.ToString());
     }
+
+    /// <inheritdoc />
+    public GameDisplayModeEnum GameDisplayMode
+    {
+        get => Enum.TryParse<GameDisplayModeEnum>(GetStringValue(nameof(GameDisplayMode)), out var result) && Enum.IsDefined(result) ? result : GameDisplayModeEnum.PortDefault;
+        set => SetSettingsValue(value.ToString());
+    }
+
+    /// <inheritdoc />
+    public bool UseController
+    {
+        get => GetBoolValue(nameof(UseController), true);
+        set => SetSettingsValue(value.ToString());
+    }
+
+    /// <inheritdoc />
+    public bool LauncherFullscreen
+    {
+        get => GetBoolValue(nameof(LauncherFullscreen));
+        set => SetSettingsValue(value.ToString());
+    }
+
+    /// <inheritdoc />
+    public bool ScanImportFolders
+    {
+        get => GetBoolValue(nameof(ScanImportFolders), true);
+        set => SetSettingsValue(value.ToString());
+    }
+
+    /// <inheritdoc />
+    public string? GetImportFolder(GameEnum game)
+    {
+        var value = GetStringValue($"ImportFolder{game}");
+
+        return string.IsNullOrWhiteSpace(value) ? null : value;
+    }
+
+    /// <inheritdoc />
+    public void SetImportFolder(GameEnum game, string? path) => SetSettingsValue(path ?? string.Empty, $"ImportFolder{game}");
 
     /// <inheritdoc />
     public bool UseMica

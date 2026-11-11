@@ -1,0 +1,88 @@
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style Selector="Window">
+        <Setter Property="FontFamily" Value="Bahnschrift, Segoe UI, fonts:Inter#Inter" />
+        <Setter Property="Foreground" Value="{DynamicResource LauncherInkBrush}" />
+    </Style>
+
+    <Style Selector="Border.column">
+        <Setter Property="Background" Value="{DynamicResource LauncherColumnBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource LauncherAccentLineBrush}" />
+        <Setter Property="BorderThickness" Value="1,2,1,1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="BoxShadow" Value="{DynamicResource Shadow}" />
+    </Style>
+
+    <Style Selector="TextBlock.column-title">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="LetterSpacing" Value="3" />
+    </Style>
+
+    <Style Selector="TextBlock.page-title">
+        <Setter Property="Margin" Value="0,0,0,10" />
+        <Setter Property="FontFamily" Value="{DynamicResource LauncherSerif}" />
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontStyle" Value="Italic" />
+        <Setter Property="Foreground" Value="{DynamicResource LauncherAccentBrush}" />
+    </Style>
+
+    <Style Selector="Button">
+        <Setter Property="CornerRadius" Value="5" />
+    </Style>
+
+    <Style Selector="Button:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="BorderBrush" Value="{DynamicResource LauncherFocusBrush}" />
+        <Setter Property="BoxShadow" Value="{DynamicResource LauncherFocusShadow}" />
+    </Style>
+
+    <Style Selector="WrapPanel#PortsButtonsPanel > Button">
+        <Setter Property="MinHeight" Value="42" />
+        <Setter Property="MinWidth" Value="104" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="BorderBrush" Value="{DynamicResource LauncherAccentBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="TextBox, ComboBox">
+        <Setter Property="CornerRadius" Value="5" />
+    </Style>
+
+    <Style Selector="TextBox">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="ListBox">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="ListBoxItem">
+        <Setter Property="Margin" Value="0,1" />
+        <Setter Property="CornerRadius" Value="5" />
+    </Style>
+
+    <Style Selector="ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="2" />
+    </Style>
+
+    <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource LauncherCardHoverBrush}" />
+    </Style>
+
+    <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource LauncherSelectedBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource LauncherAccentBrush}" />
+    </Style>
+
+    <Style Selector="ListBoxItem:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="BorderBrush" Value="{DynamicResource LauncherFocusBrush}" />
+        <Setter Property="BoxShadow" Value="{DynamicResource LauncherFocusShadow}" />
+    </Style>
+
+    <Style Selector="ProgressBar">
+        <Setter Property="Foreground" Value="{DynamicResource LauncherAccentBrush}" />
+    </Style>
+
+</Styles>

@@ -118,7 +118,8 @@ public sealed class MapsViewModel : AddonListViewModelBase
             [],
             parameter.Item2,
             _config.SkipIntro,
-            _config.SkipStartup
+            _config.SkipStartup,
+            displayMode: _config.GameDisplayMode
             ).ConfigureAwait(true);
     }
 }

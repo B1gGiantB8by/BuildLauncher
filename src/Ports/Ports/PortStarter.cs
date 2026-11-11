@@ -55,6 +55,7 @@ public sealed class PortStarter
     /// <param name="skipIntro">Skip intro</param>
     /// <param name="skipStartup">Skip startup window</param>
     /// <param name="pathToExe">Path to custom port's exe</param>
+    /// <param name="displayMode">How the port should present the game window.</param>
     /// <returns>The launch, playtime persistence, and cleanup outcome.</returns>
     public async Task<Result> StartAsync(
         BasePort port,
@@ -64,7 +65,8 @@ public sealed class PortStarter
         byte? skill,
         bool skipIntro,
         bool skipStartup,
-        string? pathToExe = null
+        string? pathToExe = null,
+        GameDisplayModeEnum displayMode = GameDisplayModeEnum.PortDefault
         )
     {
         var executable = ResolveExecutable(port, addon, CommonProperties.OSEnum, pathToExe);
@@ -74,9 +76,22 @@ public sealed class PortStarter
         {
             port.BeforeStart(game, addon);
             prepared = true;
+
+            if (displayMode is not GameDisplayModeEnum.PortDefault)
+            {
+                try
+                {
+                    port.ApplyDisplayMode(displayMode);
+                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                {
+                    _logger.LogWarning(ex, "Could not apply display mode {DisplayMode} to {Port}.", displayMode, port.Name);
+                }
+            }
+
             var installedAddonsProvider = _installedAddonsProviderFactory.Get(game);
             var mods = installedAddonsProvider.GetInstalledAddonsByType(AddonTypeEnum.Mod);
-            var args = port.GetStartGameArgs(game, addon, mods, enabledOptions, skipIntro, skipStartup, skill);
+            var args = port.GetStartGameArgs(game, addon, mods, enabledOptions, skipIntro, skipStartup, skill, displayMode);
 
             _logger.LogInformation("Starting addon {Addon} with {Executable}. Arguments: {Arguments}", addon.AddonId.Id, executable, args);
             using var process = _processRunner.Start(Path.GetFileName(executable), args, Path.GetDirectoryName(executable)!);

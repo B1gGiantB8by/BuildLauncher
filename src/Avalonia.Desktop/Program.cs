@@ -21,7 +21,7 @@ public sealed partial class Program
     [STAThread]
     public static int Main(string[] args)
     {
-        var smokeTest = args.Contains("--smoke-test") || args.Contains("--smoke-test-restart") || args.Contains("--smoke-update");
+        var smokeTest = args.Contains("--smoke-test") || args.Contains("--smoke-test-restart");
 
         if (smokeTest && (!args.Contains("--offline") || !File.Exists(Path.Combine(AppContext.BaseDirectory, ".published-smoke-test"))))
         {
@@ -68,14 +68,6 @@ public sealed partial class Program
         };
 
         Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
-        AppUpdateInstaller.CleanupCompletedUpdates(ClientProperties.WorkingFolder);
-
-        if (File.Exists(Path.Combine(ClientProperties.WorkingFolder, ClientConsts.UpdateFile)))
-        {
-            AppUpdateInstaller.InstallUpdate(smokeTest ? ["--offline", "--smoke-test-restart"] : null);
-
-            return 0;
-        }
 
         if (args.Contains("--dev"))
         {
@@ -89,12 +81,6 @@ public sealed partial class Program
 
         try
         {
-            if (args.Contains("--smoke-update"))
-            {
-                PublishedUpdateTest.RunAsync().GetAwaiter().GetResult();
-                return 0;
-            }
-
             var builder = BuildAvaloniaApp();
 
             return App.Run(builder, smokeTest, args.Contains("--smoke-test-restart"));

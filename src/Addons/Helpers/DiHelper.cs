@@ -1,5 +1,8 @@
 ﻿using Addons.Providers;
+using Core.Client.Interfaces;
+using Games.Providers;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Addons.Helpers;
 
@@ -17,6 +20,10 @@ public static class DiHelper
         _ = container.AddSingleton<DownloadableAddonsProviderFactory>();
         _ = container.AddSingleton<OriginalCampaignsProvider>();
         _ = container.AddSingleton<MetadataProvider>();
+        _ = container.AddSingleton(static sp => new AddonImportFolderScanner(
+            sp.GetRequiredService<InstalledGamesProvider>(),
+            sp.GetRequiredService<IConfigProvider>(),
+            sp.GetRequiredService<ILogger<AddonImportFolderScanner>>()));
 
         return container.AddTransient<IAddonDropHelper, AddonDropHelper>();
     }

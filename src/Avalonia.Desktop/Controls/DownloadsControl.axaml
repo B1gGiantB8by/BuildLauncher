@@ -12,11 +12,13 @@
              x:DataType="vm:DownloadsViewModel"
              mc:Ignorable="d">
 
-    <Grid ColumnDefinitions="2*,*" RowDefinitions="auto,*,auto,auto">
+    <Grid ColumnDefinitions="*,380">
 
-        <Grid Grid.Row="0"
-              Grid.Column="0"
-              Margin="0,0,0,5"
+        <Border Padding="10" Classes="column">
+
+            <Grid RowDefinitions="auto,*,auto,auto">
+
+                <Grid Margin="0,0,0,8"
               ColumnDefinitions="auto,*,auto"
               RowDefinitions="auto,auto">
 
@@ -52,8 +54,7 @@
 
         </Grid>
 
-        <DataGrid Grid.Row="1"
-                  Grid.Column="0"
+                <DataGrid Grid.Row="1"
                   Margin="0"
                   Padding="2"
                   misc:DataGridSelectedItemsProperty.SelectedItems="{Binding SelectedDownloads}"
@@ -132,28 +133,14 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <md:MarkdownScrollViewer Grid.Row="1"
-                                 Grid.RowSpan="2"
-                                 Grid.Column="1"
-                                 Margin="10,5"
-                                 Markdown="{Binding SelectedDownloadableDescription}">
-
-            <md:MarkdownScrollViewer.Styles>
-                <StyleInclude Source="/Styles/MarkdownStyle.axaml" />
-            </md:MarkdownScrollViewer.Styles>
-
-        </md:MarkdownScrollViewer>
-
-        <TextBlock Grid.Row="2"
-                   Grid.Column="0"
-                   Margin="0,3,0,0"
+                <TextBlock Grid.Row="2"
+                   Margin="0,4,0,0"
+                   Foreground="{DynamicResource LauncherMutedBrush}"
                    Text="Hold Ctrl or Shift to select multiple files" />
 
-        <!--  Buttons and progress bar  -->
+                <!--  Buttons and progress bar  -->
         <Grid Grid.Row="3"
-              Grid.Column="0"
-              Grid.ColumnSpan="1"
-              Margin="0,12"
+              Margin="0,8,0,0"
               ColumnDefinitions="auto,*,auto">
 
             <Button x:Name="DownloadButton"
@@ -201,6 +188,36 @@
             </Button>
 
         </Grid>
+
+            </Grid>
+
+        </Border>
+
+        <Border Grid.Column="1"
+                Margin="14,0,0,0"
+                Padding="12"
+                Classes="column">
+
+            <Grid RowDefinitions="auto,*">
+
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl Content="3" Theme="{DynamicResource LauncherStep}" />
+                    <TextBlock Classes="column-title" Text="DETAILS" />
+                </StackPanel>
+
+                <md:MarkdownScrollViewer Grid.Row="1"
+                                 Margin="2,5"
+                                 Markdown="{Binding SelectedDownloadableDescription}">
+
+            <md:MarkdownScrollViewer.Styles>
+                <StyleInclude Source="/Styles/MarkdownStyle.axaml" />
+            </md:MarkdownScrollViewer.Styles>
+
+        </md:MarkdownScrollViewer>
+
+            </Grid>
+
+        </Border>
 
     </Grid>
 

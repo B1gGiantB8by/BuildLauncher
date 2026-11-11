@@ -42,7 +42,7 @@ jobs:
         id: get_version
         shell: pwsh
         run: |
-          $exe = Join-Path $PWD 'publish\BuildLauncher.exe'
+          $exe = Join-Path $PWD 'publish\BuildLauncherEX.exe'
           if (-not (Test-Path $exe)) { Write-Error "Executable not found: $exe" }
           $version = (Get-Item $exe).VersionInfo.FileVersion
           $withDots = $version.Substring(0,$version.Length-2)
@@ -54,7 +54,7 @@ jobs:
         id: upload-unsigned-artifact
         uses: actions/upload-artifact@v7
         with: 
-          path: publish/BuildLauncher.exe
+          path: publish/BuildLauncherEX.exe
 
       - name: Signing
         uses: signpath/github-action-submit-signing-request@v2
@@ -75,7 +75,7 @@ jobs:
           $v = "${{ steps.get_version.outputs.version_nodots }}"
           $dest = Join-Path $PWD "publish\signed\buildlauncher_${v}_win-x64.zip"
           if (Test-Path $dest) { Remove-Item $dest }
-          Compress-Archive -Path ".\publish\signed\BuildLauncher.exe" -DestinationPath $dest
+          Compress-Archive -Path ".\publish\signed\BuildLauncherEX.exe" -DestinationPath $dest
           Write-Host "Created $dest"
 
       - name: Upload signed Windows artifact

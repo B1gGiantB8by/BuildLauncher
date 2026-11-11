@@ -243,6 +243,63 @@ public sealed partial class SettingsViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    ///     Gets or sets the selected game display mode as an index into the display mode list.
+    /// </summary>
+    public int GameDisplayModeIndex
+    {
+        get => (int)_config.GameDisplayMode;
+        set
+        {
+            if (value < 0 || !Enum.IsDefined((GameDisplayModeEnum)value))
+            {
+                return;
+            }
+
+            _config.GameDisplayMode = (GameDisplayModeEnum)value;
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    ///     Gets or sets whether the launcher can be navigated with a game controller.
+    /// </summary>
+    public bool UseControllerCheckbox
+    {
+        get => _config.UseController;
+        set
+        {
+            _config.UseController = value;
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    ///     Gets or sets whether the launcher starts in fullscreen.
+    /// </summary>
+    public bool LauncherFullscreenCheckbox
+    {
+        get => _config.LauncherFullscreen;
+        set
+        {
+            _config.LauncherFullscreen = value;
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>
+    ///     Gets or sets whether import folders are scanned for new addon archives on startup.
+    /// </summary>
+    public bool ScanImportFoldersCheckbox
+    {
+        get => _config.ScanImportFolders;
+        set
+        {
+            _config.ScanImportFolders = value;
+            OnPropertyChanged();
+        }
+    }
+
     /// <summary> Gets or sets whether the Mica system backdrop effect is enabled. </summary>
     public bool UseMicaCheckbox
     {

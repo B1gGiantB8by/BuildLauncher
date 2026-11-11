@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <AssemblyName>BuildLauncher</AssemblyName>
+        <AssemblyName>BuildLauncherEX</AssemblyName>
+        <Product>Build Launcher EX</Product>
+        <AssemblyTitle>Build Launcher EX</AssemblyTitle>
         <OutputType>WinExe</OutputType>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <SelfContained>true</SelfContained>

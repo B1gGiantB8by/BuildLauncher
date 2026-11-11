@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <AssemblyName>BuildLauncher.$(MSBuildProjectName)</AssemblyName>
+        <!-- Required by LibraryImport source generation in DisplayConfigHelper. -->
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>

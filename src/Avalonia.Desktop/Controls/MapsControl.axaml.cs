@@ -1,5 +1,6 @@
 using Addons.Addons;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Desktop.Helpers;
 using Avalonia.Desktop.Misc;
 using Avalonia.Desktop.ViewModels;
@@ -114,6 +115,11 @@ public sealed partial class MapsControl : AddonListControlBase
             };
 
             button.Click += OnPortButtonClicked;
+
+            if (IsSkillFlyoutAvailable(port))
+            {
+                FlyoutBase.SetAttachedFlyout(button, _flyout);
+            }
 
             BottomPanel!.PortsButtonsPanel!.Children.Add(button);
         }

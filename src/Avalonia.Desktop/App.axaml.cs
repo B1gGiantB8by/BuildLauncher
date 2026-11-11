@@ -103,7 +103,14 @@ public sealed class App : Application
         _app.DataTemplates.Add(viewLocator);
         _app.Resources[nameof(CachedHashToBitmapConverter)] = new CachedHashToBitmapConverter(bitmapsCache);
 
+        var importResults = ScanImportFolders(config, logger);
+
         using MainWindow mainWindow = new(installedGamesProvider, config, _services.GetRequiredService<ILogger<MainWindow>>());
+
+        if (importResults.Count > 0)
+        {
+            mainWindow.Opened += (_, _) => ShowImportResults(importResults, _services.GetRequiredService<IUserNotifier>());
+        }
 
         lifetime.MainWindow = mainWindow;
         lifetime.MainWindow.DataContext = vmFactory.GetMainWindowViewModel();
@@ -165,6 +172,55 @@ public sealed class App : Application
     ///     Renames legacy save folders to their correct names.
     /// </summary>
     /// <param name="portsProvider">The ports provider.</param>
+    /// <summary>
+    ///     Installs archives found in each game's import folder before the addon lists are built.
+    /// </summary>
+    /// <param name="config">The configuration provider.</param>
+    /// <param name="logger">The application logger.</param>
+    /// <returns>The per-file import results.</returns>
+    private static IReadOnlyList<ImportFolderResult> ScanImportFolders(IConfigProvider config, ILogger logger)
+    {
+        if (Design.IsDesignMode || !config.ScanImportFolders)
+        {
+            return [];
+        }
+
+        try
+        {
+            return _services.GetRequiredService<AddonImportFolderScanner>().ScanAsync().GetAwaiter().GetResult();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Import folder scan failed.");
+
+            return [];
+        }
+    }
+
+    /// <summary>
+    ///     Shows a summary notification for the startup import.
+    /// </summary>
+    /// <param name="results">The per-file import results.</param>
+    /// <param name="notifier">The user notifier.</param>
+    private static void ShowImportResults(IReadOnlyList<ImportFolderResult> results, IUserNotifier notifier)
+    {
+        var succeeded = results.Where(static r => r.IsSuccess).ToList();
+
+        if (succeeded.Count > 0)
+        {
+            notifier.Show(
+                succeeded.Count == 1
+                    ? $"Imported {succeeded[0].FileName} ({succeeded[0].Game}). {succeeded[0].Message}"
+                    : $"Imported {succeeded.Count} files from import folders.",
+                NotificationSeverity.Success);
+        }
+
+        foreach (var failure in results.Where(static r => !r.IsSuccess))
+        {
+            notifier.Show($"Could not import {failure.FileName} ({failure.Game}): {failure.Message}", NotificationSeverity.Error);
+        }
+    }
+
     [Obsolete("Remove some time later")]
     private static void RenameSaveFolder(PortsProvider portsProvider)
     {

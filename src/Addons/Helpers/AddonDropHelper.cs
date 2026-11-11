@@ -95,16 +95,23 @@ public sealed class AddonDropHelper : IAddonDropHelper
 
     private async Task<(GameEnum Game, AddonTypeEnum Type)?> AddAddonAsync(string pathToFile, BaseGame game)
     {
-        if (!pathToFile.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) &&
+        if (!LegacyArchiveConverter.IsSupportedArchive(pathToFile) &&
             !pathToFile.EndsWith(".map", StringComparison.OrdinalIgnoreCase))
         {
-            _logger.LogError("File is not .zip or .map.");
-            _notifier.Show($"{pathToFile} is not .zip or .map.", NotificationSeverity.Error);
+            _logger.LogError("File is not an archive or .map.");
+            _notifier.Show($"{pathToFile} is not .zip, .7z, .rar or .map.", NotificationSeverity.Error);
 
             return null;
         }
 
-        var addon = await GetGameAndTypeFromFileAsync(pathToFile, game.GameEnum).ConfigureAwait(false);
+        var addon = pathToFile.EndsWith(".zip", StringComparison.OrdinalIgnoreCase) || pathToFile.EndsWith(".map", StringComparison.OrdinalIgnoreCase)
+            ? await GetGameAndTypeFromFileAsync(pathToFile, game.GameEnum).ConfigureAwait(false)
+            : null;
+
+        if (addon is null && LegacyArchiveConverter.IsSupportedArchive(pathToFile))
+        {
+            return await ImportLegacyArchiveAsync(pathToFile, game).ConfigureAwait(false);
+        }
 
         if (addon is null)
         {
@@ -154,6 +161,29 @@ public sealed class AddonDropHelper : IAddonDropHelper
         await provider.AddAddonAsync(newPathToFile).ConfigureAwait(false);
 
         return addon;
+    }
+
+    /// <summary>
+    ///     Converts an archive without a BuildLauncher manifest and adds the generated package.
+    /// </summary>
+    private async Task<(GameEnum Game, AddonTypeEnum Type)?> ImportLegacyArchiveAsync(string pathToFile, BaseGame game)
+    {
+        var converted = await LegacyArchiveConverter.ConvertAsync(pathToFile, game).ConfigureAwait(false);
+
+        if (!converted.IsSuccess)
+        {
+            _logger.LogError("Can't import archive {Path}: {Message}", pathToFile, converted.Message);
+            _notifier.Show(converted.Message, NotificationSeverity.Error);
+
+            return null;
+        }
+
+        _logger.LogInformation("Imported {Path} as {Type} package {Package}.", pathToFile, converted.ResultObject.AddonType, converted.ResultObject.PathToPackage);
+
+        var provider = _installedAddonsProvider.Get(game);
+        await provider.AddAddonAsync(converted.ResultObject.PathToPackage).ConfigureAwait(false);
+
+        return (game.GameEnum, converted.ResultObject.AddonType);
     }
 
     private async Task<(GameEnum Game, AddonTypeEnum AddonType)?> GetGameAndTypeFromFileAsync(string pathToFile, GameEnum gameEnum)

@@ -3,10 +3,13 @@ using System.Collections.Immutable;
 using Addons.Addons;
 using Addons.Helpers;
 using Addons.Providers;
+using Avalonia.Desktop.Helpers;
 using Avalonia.Desktop.Misc;
+using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.All.Enums;
+using Core.Client.Helpers;
 using Core.Client.Interfaces;
 using Core.Client.Providers;
 using Games.Games;
@@ -352,6 +355,160 @@ public abstract partial class AddonListViewModelBase : RightPanelViewModel, IPor
     /// </returns>
     [RelayCommand]
     private Task ProcessDroppedFilesAsync(List<string> filePaths) => _addonInstaller.AddAddonsAsync(filePaths, Game);
+
+    /// <summary>
+    ///     Lets the user pick archives or maps and imports them; archives without a manifest are converted.
+    /// </summary>
+    [RelayCommand]
+    private async Task ImportAddonsAsync()
+    {
+        try
+        {
+            var files = await AvaloniaProperties.TopLevel.StorageProvider.OpenFilePickerAsync(
+                new FilePickerOpenOptions
+                {
+                    Title = $"Import addons for {Game.FullName}",
+                    AllowMultiple = true,
+                    FileTypeFilter =
+                    [
+                        new FilePickerFileType("Addon archives and maps") { Patterns = ["*.zip", "*.7z", "*.rar", "*.map"] },
+                        FilePickerFileTypes.All
+                    ]
+                }
+                ).ConfigureAwait(true);
+
+            var paths = files.Select(static f => f.TryGetLocalPath()).OfType<string>().ToList();
+
+            if (paths.Count == 0)
+            {
+                return;
+            }
+
+            _ = await _addonInstaller.AddAddonsAsync(paths, Game).ConfigureAwait(true);
+        }
+        catch (Exception ex)
+        {
+            _userNotifier.Show("Import failed. Details are written to the log.", NotificationSeverity.Error);
+            _logger.LogError(ex, "Error while importing addons for {Game}.", Game.GameEnum);
+        }
+    }
+
+    /// <inheritdoc />
+    public string ImportFolderPath => CreateImportScanner().GetImportFolder(Game);
+
+    /// <summary>
+    ///     Opens the game's import folder in the OS file explorer, creating it when needed.
+    /// </summary>
+    [RelayCommand]
+    private void OpenImportFolder()
+    {
+        try
+        {
+            Ensure.DirectoryExists(ImportFolderPath);
+            _folderOpener.OpenFolder(ImportFolderPath);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
+        {
+            _userNotifier.Show($"Can't open import folder {ImportFolderPath}: {ex.Message}", NotificationSeverity.Error);
+        }
+    }
+
+    /// <summary>
+    ///     Imports the files in the game's import folder and refreshes every addon list of the game.
+    /// </summary>
+    [RelayCommand]
+    private async Task ScanImportFolderAsync()
+    {
+        try
+        {
+            IsInProgress = true;
+
+            var results = await CreateImportScanner().ScanGameAsync(Game).ConfigureAwait(true);
+
+            if (results.Count == 0)
+            {
+                _userNotifier.Show($"No new .zip, .7z, .rar or .map files in {ImportFolderPath}.", NotificationSeverity.Success);
+
+                return;
+            }
+
+            foreach (var type in new[] { AddonTypeEnum.TC, AddonTypeEnum.Map, AddonTypeEnum.Mod })
+            {
+                await _installedAddonsProvider.CreateCacheAsync(true, type).ConfigureAwait(true);
+            }
+
+            var succeeded = results.Count(static r => r.IsSuccess);
+
+            if (succeeded > 0)
+            {
+                _userNotifier.Show($"Imported {succeeded} file(s) from the import folder.", NotificationSeverity.Success);
+            }
+
+            foreach (var failure in results.Where(static r => !r.IsSuccess))
+            {
+                _userNotifier.Show($"Could not import {failure.FileName}: {failure.Message}", NotificationSeverity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            _userNotifier.Show("Import failed. Details are written to the log.", NotificationSeverity.Error);
+            _logger.LogError(ex, "Error while scanning the import folder for {Game}.", Game.GameEnum);
+        }
+        finally
+        {
+            IsInProgress = false;
+        }
+    }
+
+    /// <summary>
+    ///     Lets the user choose a custom import folder for the game.
+    /// </summary>
+    [RelayCommand]
+    private async Task ChangeImportFolderAsync()
+    {
+        try
+        {
+            var folders = await AvaloniaProperties.TopLevel.StorageProvider.OpenFolderPickerAsync(
+                new FolderPickerOpenOptions
+                {
+                    Title = $"Choose import folder for {Game.FullName}",
+                    AllowMultiple = false
+                }
+                ).ConfigureAwait(true);
+
+            var path = folders.Count == 0 ? null : folders[0].TryGetLocalPath();
+
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return;
+            }
+
+            _config.SetImportFolder(Game.GameEnum, path);
+            OnPropertyChanged(nameof(ImportFolderPath));
+            _userNotifier.Show($"{Game.FullName} import folder: {path}", NotificationSeverity.Success);
+        }
+        catch (Exception ex)
+        {
+            _userNotifier.Show("Could not change the import folder. Details are written to the log.", NotificationSeverity.Error);
+            _logger.LogError(ex, "Error while choosing the import folder for {Game}.", Game.GameEnum);
+        }
+    }
+
+    /// <summary>
+    ///     Switches the game back to its default import folder.
+    /// </summary>
+    [RelayCommand]
+    private void ResetImportFolder()
+    {
+        _config.SetImportFolder(Game.GameEnum, null);
+        OnPropertyChanged(nameof(ImportFolderPath));
+        _userNotifier.Show($"{Game.FullName} import folder: {ImportFolderPath}", NotificationSeverity.Success);
+    }
+
+    /// <summary>
+    ///     Creates an import folder scanner for this view model's game.
+    /// </summary>
+    private AddonImportFolderScanner CreateImportScanner() => new(_gamesProvider, _config, _logger);
 
     /// <summary>
     ///     Updates metadata for the specified addon, or for the selected addon if null is passed.

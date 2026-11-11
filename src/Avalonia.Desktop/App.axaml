@@ -7,11 +7,15 @@
     <Application.Styles>
         <FluentTheme DensityStyle="Compact" />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <StyleInclude Source="/Styles/LauncherStyles.axaml" />
     </Application.Styles>
 
     <Application.Resources>
         <ResourceDictionary>
             <helpers:CachedHashToBitmapConverter x:Key="CachedHashToBitmapConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/Styles/LauncherTheme.axaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

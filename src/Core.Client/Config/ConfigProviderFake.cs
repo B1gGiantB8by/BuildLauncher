@@ -56,6 +56,32 @@ public sealed class ConfigProviderFake : IConfigProvider
     /// <inheritdoc />
     public bool SkipStartup { get; set; } = false;
     /// <inheritdoc />
+    public GameDisplayModeEnum GameDisplayMode { get; set; } = GameDisplayModeEnum.PortDefault;
+    /// <inheritdoc />
+    public bool UseController { get; set; } = false;
+    /// <inheritdoc />
+    public bool LauncherFullscreen { get; set; } = false;
+    /// <inheritdoc />
+    public bool ScanImportFolders { get; set; } = false;
+
+    private readonly Dictionary<GameEnum, string> _importFolders = [];
+
+    /// <inheritdoc />
+    public string? GetImportFolder(GameEnum game) => _importFolders.TryGetValue(game, out var path) ? path : null;
+
+    /// <inheritdoc />
+    public void SetImportFolder(GameEnum game, string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            _ = _importFolders.Remove(game);
+        }
+        else
+        {
+            _importFolders[game] = path;
+        }
+    }
+    /// <inheritdoc />
     public bool UseMica { get; set; } = true;
     /// <inheritdoc />
     public bool UseLocalApi { get; set; } = true;

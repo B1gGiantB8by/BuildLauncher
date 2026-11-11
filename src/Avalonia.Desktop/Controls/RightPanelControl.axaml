@@ -10,15 +10,24 @@
              x:DataType="vm:RightPanelViewModel"
              mc:Ignorable="d">
 
-    <Grid RowDefinitions="*,auto,auto,auto,auto,auto">
+    <Grid RowDefinitions="auto,*,auto,auto,auto">
 
-        <ScrollViewer Grid.Row="0">
+        <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
+            <ContentControl Content="3" Theme="{DynamicResource LauncherStep}" />
+            <TextBlock Classes="column-title" Text="DETAILS" />
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
 
             <StackPanel Orientation="Vertical">
 
-                <Image Height="200"
-                       IsVisible="{Binding IsPreviewVisible}"
-                       Source="{Binding SelectedAddonPreview}" />
+                <Border Margin="0,0,0,8"
+                        Background="{DynamicResource SurfaceSunken}"
+                        ClipToBounds="True"
+                        CornerRadius="4"
+                        IsVisible="{Binding IsPreviewVisible}">
+                    <Image MaxHeight="210" Source="{Binding SelectedAddonPreview}" />
+                </Border>
 
                 <md:MarkdownScrollViewer x:Name="Description"
                                          Margin="10,5"
@@ -33,7 +42,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <Grid Grid.Row="1"
+        <Grid Grid.Row="2"
               Margin="5"
               ColumnDefinitions="auto,*"
               IsVisible="{Binding HasOptions}"
@@ -60,14 +69,14 @@
 
         </Grid>
 
-        <TextBlock Grid.Row="2"
+        <TextBlock Grid.Row="3"
                    Margin="10,5"
                    HorizontalAlignment="Center"
                    FontSize="16"
                    FontWeight="Bold"
                    Text="{Binding SelectedAddonPlaytime}" />
 
-        <StackPanel Grid.Row="3"
+        <StackPanel Grid.Row="4"
                     IsVisible="{Binding IsMetadataUpdateAvailable}"
                     Orientation="Horizontal">
 

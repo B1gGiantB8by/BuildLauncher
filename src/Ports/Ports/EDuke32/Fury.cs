@@ -64,6 +64,15 @@ public sealed class Fury : EDuke32
     protected override string ConfigFile => "fury.cfg";
 
     /// <inheritdoc />
+    /// <remarks>
+    ///     Ion Fury keeps its configuration with the retail game, so the launcher leaves its display settings alone.
+    /// </remarks>
+    public override bool IsDisplayModeSupported => false;
+
+    /// <inheritdoc />
+    public override void ApplyDisplayMode(GameDisplayModeEnum displayMode) { }
+
+    /// <inheritdoc />
     public override bool IsDownloadable => false;
 
 
